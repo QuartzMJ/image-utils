@@ -131,40 +131,49 @@ if __name__ == "__main__":
     else:
         input_path = sys.argv[2]
         output_path = sys.argv[3]
-        if(sys.argv[1] == "grayscale"):
-            grayscale(input_path,output_path)
-        elif(sys.argv[1] == "resize"):
-            new_width = int(sys.argv[4])
-            new_height = int(sys.argv[5])
-            resize_image(input_path,output_path,new_width,new_height)
-        elif(sys.argv[1] == "crop"):
-            width = int(sys.argv[4])
-            height = int(sys.argv[5])
-            x = int(sys.argv[6])
-            y = int(sys.argv[7])
-            crop_image(input_path,output_path,width,height,x,y)
-        elif(sys.argv[1] == "blur"):
-            kernel_size = int(sys.argv[4])
-            sigma = int(sys.argv[5])
-            gaussian_blur(input_path,output_path,kernel_size,sigma)
-        elif(sys.argv[1] == "detect"):
-            threshold1 = int(sys.argv[4])
-            threshold2 = int(sys.argv[5])
-            detect_edges(input_path,output_path,threshold1,threshold2)
-        elif(sys.argv[1] == "lines"):
-            threshold = int(sys.argv[4])
-            detect_lines(input_path,output_path,threshold)
-        elif(sys.argv[1] == "rotate"):
-            angle = int(sys.argv[4])
-            random_rotate_image(input_path,output_path,angle)
-        elif(sys.argv[1] == "flip"):
-            random_flip_image(input_path,output_path)
-        elif(sys.argv[1] == "brightness"):
-            random_brightness(input_path,output_path)
-        elif(sys.argv[1] == "noise"):
-            random_noise(input_path,output_path)
-        elif(sys.argv[1] == "random_crop"):
-            random_crop(input_path,output_path)
+        options = {
+            "grayscale": grayscale,
+            "resize": resize_image,
+            "crop": crop_image,
+            "blur": gaussian_blur,
+            "detect": detect_edges,
+            "lines": detect_lines,
+            "rotate": random_rotate_image,
+            "flip": random_flip_image,
+            "brightness": random_brightness,
+            "noise": random_noise,
+            "random_crop": random_crop,
+        }
+        if sys.argv[1] in options:
+            func = options[sys.argv[1]]
+            if sys.argv[1] == "resize":
+                new_width = int(sys.argv[4])
+                new_height = int(sys.argv[5])
+                func(input_path, output_path, new_width, new_height)
+            elif sys.argv[1] == "crop":
+                width = int(sys.argv[4])
+                height = int(sys.argv[5])
+                x = int(sys.argv[6])
+                y = int(sys.argv[7])
+                func(input_path, output_path, width, height, x, y)
+            elif sys.argv[1] == "blur":
+                kernel_size = int(sys.argv[4])
+                sigma = int(sys.argv[5])
+                func(input_path, output_path, kernel_size, sigma)
+            elif sys.argv[1] == "detect":
+                threshold1 = int(sys.argv[4])
+                threshold2 = int(sys.argv[5])
+                func(input_path, output_path, threshold1, threshold2)
+            elif sys.argv[1] == "lines":
+                threshold = int(sys.argv[4])
+                func(input_path, output_path, threshold)
+            elif sys.argv[1] == "rotate":
+                angle = int(sys.argv[4])
+                func(input_path, output_path, angle)
+            else:
+                func(input_path, output_path)
+        else:
+            print("Invalid option.")
 
 
 
